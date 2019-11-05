@@ -14,9 +14,9 @@ app.use(express.urlencoded());
 app.set('views', './views');
 app.set("view engine", "ejs");
 app.use(express.static('public'));
-const Customer = require('./routes/api/v1/customer')
+const Customer = require('./routes/customer')
 
-app.use('api/v1/users', Customer);
+app.use('/api', Customer);
 
 
 app.listen(process.env.PORT || 3000, (err) => {

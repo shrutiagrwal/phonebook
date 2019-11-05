@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('../../../models/customer')
+const Customer = require('../models/customer')
 
 router.get('/', async(req, res) => {
     let customer = await Customer.find().sort('name');
@@ -14,7 +14,7 @@ router.get('/create', (req, res) => {
 router.post('/create', async(req, res) => {
     let customer = await Customer.findOne({ email: req.body.email });
     if (customer) {
-        return customer.message.push(req.body.message);
+        return res.status(400).send("user already present");
     } else {
         customer = new Customer({
             email: req.body.email,
@@ -25,6 +25,7 @@ router.post('/create', async(req, res) => {
     }
     try {
         await customer.save();
+        res.send("user saved")
     } catch (ex) {
         console.log(ex);
     }
